@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title id="pagina-titulo">Acompanhamento Nutricional Personalizado</title>
+  
+  <!-- Tailwind CSS CDN para agilidade visual -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Fonte Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Estilos de Segurança Embutidos (Garante layout intacto mesmo se CDN falhar) -->
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fafaf9;
+      color: #292524;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      -webkit-font-smoothing: antialiased;
+    }
+    .hidden { display: none !important; }
+    .fade-in {
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-stone-50 text-stone-800 min-h-screen flex flex-col justify-between antialiased">
+
+  <!-- Header Fixo Compacto -->
+  <header class="border-b border-emerald-100/80 bg-white/95 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-xl mx-auto px-4 py-2.5 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-full border border-emerald-500/30 p-0.5 bg-white shadow-xs flex-shrink-0 relative overflow-hidden">
+          <img id="avatar-header" src="" alt="Avatar" class="w-full h-full rounded-full object-cover hidden" onerror="this.classList.add('hidden'); document.getElementById('avatar-fallback-header').classList.remove('hidden');">
+          <div id="avatar-fallback-header" class="w-full h-full rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold">
+            🥗
+          </div>
+        </div>
+        <div>
+          <h2 id="nutri-nome-header" class="text-xs font-bold text-stone-900 leading-tight">Dra. Nutricionista</h2>
+          <span id="nutri-nicho-badge" class="text-[10px] font-semibold text-emerald-700">Nutrição Especializada</span>
+        </div>
+      </div>
+      <span class="inline-flex items-center gap-1.5 text-[11px] text-emerald-800 bg-emerald-50 border border-emerald-200/70 px-2.5 py-1 rounded-full font-semibold shadow-xs">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        Agenda Aberta
+      </span>
+    </div>
+  </header>
+
+  <!-- Hero Principal com Foto em Evidência -->
+  <main class="max-w-xl mx-auto px-4 py-6 sm:py-8 flex-1 flex flex-col justify-center w-full">
+    
+    <!-- Bloco da Foto -->
+    <div class="flex flex-col items-center text-center mb-6">
+      
+      <!-- Container da Foto Destacada (Ativado quando há foto válida) -->
+      <div id="avatar-hero-container" class="relative mb-3 hidden fade-in">
+        <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full p-1 bg-white ring-4 ring-emerald-500/20 shadow-xl shadow-emerald-950/10">
+          <img id="avatar-hero" src="" alt="Nutricionista" class="w-full h-full rounded-full object-cover" onerror="this.closest('#avatar-hero-container').classList.add('hidden'); document.getElementById('avatar-fallback-hero').classList.remove('hidden');">
+        </div>
+        <span class="absolute bottom-1 right-1 bg-emerald-600 text-white w-6 h-6 rounded-full shadow-md border-2 border-white flex items-center justify-center text-xs font-bold" title="Perfil Verificado">
+          ✓
+        </span>
+      </div>
+
+      <!-- Fallback Discreto (Visível caso NÃO haja foto ou dê erro de carregamento) -->
+      <div id="avatar-fallback-hero" class="w-14 h-14 rounded-full bg-emerald-100 border border-emerald-300/60 text-emerald-800 flex items-center justify-center text-xl font-bold mb-3 shadow-sm">
+        🥗
+      </div>
+
+      <!-- Selo de Posicionamento Dinâmico -->
+      <span id="nutri-selo" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-100/80 text-emerald-900 border border-emerald-300/60 mb-2.5 shadow-2xs">
+        Atendimento Clínico & Especializado
+      </span>
+
+      <!-- Título Principal -->
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight leading-tight">
+        <span id="nutri-prefixo">Dra.</span> <span id="nutri-nome-body" class="text-stone-900">Nutricionista</span>
+      </h1>
+      
+      <p class="text-stone-600 text-xs sm:text-sm mt-1.5 max-w-md leading-relaxed">
+        Acompanhamento personalizado focado em <strong id="nutri-nicho-text" class="text-emerald-700 font-semibold">resultados reais</strong>, adesão sustentável e rotina prática sem dietas restritivas.
+      </p>
+    </div>
+
+    <!-- Card de Triagem para WhatsApp -->
+    <div class="bg-white border border-emerald-100 rounded-2xl p-5 sm:p-6 shadow-xl shadow-stone-900/5">
+      <div class="mb-4">
+        <h3 class="text-sm font-bold text-stone-900">Como posso te ajudar hoje?</h3>
+        <p class="text-[11px] text-stone-500">Selecione uma opção para iniciar sua triagem rápida no WhatsApp.</p>
+      </div>
+
+      <div class="space-y-2.5">
+        <!-- Opção 1: Emagrecimento -->
+        <button type="button" onclick="enviarNutri('Olá! Gostaria de saber valores e como funciona a consulta para Emagrecimento e Composição Corporal.')" class="w-full text-left p-3.5 rounded-xl border border-stone-200/90 hover:border-emerald-500 bg-stone-50/40 hover:bg-emerald-50/50 transition-all duration-200 group flex items-center justify-between cursor-pointer">
+          <div>
+            <p class="text-xs font-bold text-stone-900 group-hover:text-emerald-900">Emagrecimento Saudável e Definição</p>
+            <p class="text-[11px] text-stone-500 mt-0.5">Perda de gordura com preservação de massa magra.</p>
+          </div>
+          <span class="text-stone-400 group-hover:text-emerald-600 font-bold ml-2 text-sm transition-transform group-hover:translate-x-1">→</span>
+        </button>
+
+        <!-- Opção 2: Hipertrofia & Performance -->
+        <button type="button" onclick="enviarNutri('Olá! Gostaria de saber como funciona a consulta focada em Ganho de Massa e Performance.')" class="w-full text-left p-3.5 rounded-xl border border-stone-200/90 hover:border-emerald-500 bg-stone-50/40 hover:bg-emerald-50/50 transition-all duration-200 group flex items-center justify-between cursor-pointer">
+          <div>
+            <p class="text-xs font-bold text-stone-900 group-hover:text-emerald-900">Hipertrofia e Performance Esportiva</p>
+            <p class="text-[11px] text-stone-500 mt-0.5">Cálculo de macros, pré/pós-treino e suplementação.</p>
+          </div>
+          <span class="text-stone-400 group-hover:text-emerald-600 font-bold ml-2 text-sm transition-transform group-hover:translate-x-1">→</span>
+        </button>
+
+        <!-- Opção 3: Personalizada pelo Nicho -->
+        <button type="button" id="btn-nicho-container" onclick="enviarNutriPersonalizado()" class="w-full text-left p-3.5 rounded-xl border border-stone-200/90 hover:border-emerald-500 bg-stone-50/40 hover:bg-emerald-50/50 transition-all duration-200 group flex items-center justify-between cursor-pointer">
+          <div>
+            <p class="text-xs font-bold text-stone-900 group-hover:text-emerald-900">Acompanhamento em <span id="nutri-btn-nicho">Saúde e Rotina</span></p>
+            <p class="text-[11px] text-stone-500 mt-0.5" id="nutri-btn-desc">Plano alimentar individualizado e adaptado à sua rotina.</p>
+          </div>
+          <span class="text-stone-400 group-hover:text-emerald-600 font-bold ml-2 text-sm transition-transform group-hover:translate-x-1">→</span>
+        </button>
+      </div>
+
+      <div class="mt-4 pt-3.5 border-t border-stone-100 flex items-center justify-between text-[10px] text-stone-500 font-medium">
+        <span>🥗 Plano adaptado aos seus exames</span>
+        <span>Suporte direto no app</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Rodapé Minimalista -->
+  <footer class="py-4 text-center text-stone-400 text-[10px]">
+    Atendimento nutricional individualizado e humanizado.
+  </footer>
+
+  <!-- Script Blindado e Autossuficiente -->
+  <script>
+    (function() {
+      "use strict";
+
+      console.group("🚀 [Landing Page Nutri] Inicialização");
+
+      try {
+        // 1. Extração Segura de Parâmetros da URL
+        const params = new URLSearchParams(window.location.search);
+        
+        function getParamSafe(name) {
+          try {
+            const val = params.get(name);
+            if (val !== null && val !== undefined) return val.trim();
+          } catch (e) {}
+          const match = window.location.search.match(new RegExp('[?&]' + name + '=([^&]*)'));
+          return match ? decodeURIComponent(match[1].replace(/\+/g, ' ')).trim() : '';
+        }
+
+        // Os links do painel usam estes nomes curtos. Os aliases também
+        // permitem importar listas antigas sem quebrar a apresentação.
+        const rawNome = getParamSafe('nome') || getParamSafe('name');
+        const rawNicho = getParamSafe('nicho') || getParamSafe('especialidade');
+        const rawFoto = getParamSafe('foto') || getParamSafe('imagem') || getParamSafe('photo');
+        const rawZap = getParamSafe('zap') || getParamSafe('whatsapp') || getParamSafe('telefone');
+
+        console.log("Parâmetros brutos lidos:", { rawNome, rawNicho, rawFoto, rawZap });
+
+        // 2. Normalização do Nome
+        let nomeLimpo = rawNome || 'Nutricionista';
+        let prefixo = 'Dra.';
+        if (nomeLimpo.toLowerCase().startsWith('dr.') || nomeLimpo.toLowerCase().startsWith('dra.') || nomeLimpo.toLowerCase().startsWith('dra ') || nomeLimpo.toLowerCase().startsWith('dr ')) {
+          prefixo = '';
+        }
+
+        // 3. Mapeamento Inteligente e Amigável do Nicho
+        const nichoNorm = rawNicho.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        let nichoTitulo = "Nutrição Especializada";
+        let nichoHero = "resultados reais";
+        let nichoBotao = "Saúde e Rotina";
+        let nichoDesc = "Plano alimentar individualizado e adaptado à sua rotina.";
+        let seloTexto = "Atendimento Clínico & Especializado";
+        let nichoMensagemZap = "uma consulta individualizada";
+
+        if (nichoNorm.includes('materno') || nichoNorm.includes('infantil') || nichoNorm.includes('gestant') || nichoNorm.includes('mae')) {
+          nichoTitulo = "Nutrição Materno-Infantil";
+          nichoHero = "Nutrição Materno-Infantil";
+          nichoBotao = "Nutrição Materno-Infantil";
+          nichoDesc = "Cuidado integral para gestação, pós-parto e introdução alimentar.";
+          seloTexto = "Saúde da Gestante, Mãe & Bebê";
+          nichoMensagemZap = "Nutrição Materno-Infantil";
+        } else if (nichoNorm.includes('esport') || nichoNorm.includes('atlet') || nichoNorm.includes('hipertrofia') || nichoNorm.includes('performance')) {
+          nichoTitulo = "Nutrição Esportiva";
+          nichoHero = "Nutrição Esportiva & Performance";
+          nichoBotao = "Performance Esportiva";
+          nichoDesc = "Estratégias nutricionais avançadas para rendimento e hipertrofia.";
+          seloTexto = "Performance, Hipertrofia & Rendimento";
+          nichoMensagemZap = "Nutrição Esportiva & Performance";
+        } else if (nichoNorm.includes('emagrec') || nichoNorm.includes('gordura') || nichoNorm.includes('defin')) {
+          nichoTitulo = "Emagrecimento & Definição";
+          nichoHero = "Emagrecimento Saudável";
+          nichoBotao = "Emagrecimento Sustentável";
+          nichoDesc = "Perda de gordura com foco em sustentabilidade e saúde integral.";
+          seloTexto = "Composição Corporal & Emagrecimento";
+          nichoMensagemZap = "Emagrecimento Saudável";
+        } else if (nichoNorm.includes('clinic') || nichoNorm.includes('funcional') || nichoNorm.includes('intestino')) {
+          nichoTitulo = "Nutrição Clínica & Funcional";
+          nichoHero = "Nutrição Clínica & Funcional";
+          nichoBotao = "Saúde Intestinal e Clínica";
+          nichoDesc = "Tratamento de desordens metabólicas, digestivas e imunidade.";
+          seloTexto = "Saúde Intestinal & Tratamento Clínico";
+          nichoMensagemZap = "Nutrição Clínica e Funcional";
+        } else if (rawNicho) {
+          const capitalizado = rawNicho.charAt(0).toUpperCase() + rawNicho.slice(1);
+          nichoTitulo = capitalizado;
+          nichoHero = capitalizado;
+          nichoBotao = capitalizado;
+          nichoMensagemZap = capitalizado;
+        }
+
+        // 4. Sanitização do WhatsApp (zap)
+        let zapLimpo = (rawZap || '').replace(/\D/g, '');
+        if (zapLimpo.length >= 10 && !zapLimpo.startsWith('55')) {
+          zapLimpo = '55' + zapLimpo;
+        }
+
+        // 5. Atualização Dinâmica do DOM
+        document.title = (prefixo ? prefixo + ' ' : '') + nomeLimpo + ' | ' + nichoTitulo;
+        
+        const elNomeHeader = document.getElementById('nutri-nome-header');
+        if (elNomeHeader) elNomeHeader.textContent = (prefixo ? prefixo + ' ' : '') + nomeLimpo;
+
+        const elPrefixo = document.getElementById('nutri-prefixo');
+        if (elPrefixo) {
+          if (prefixo) {
+            elPrefixo.textContent = prefixo;
+            elPrefixo.classList.remove('hidden');
+          } else {
+            elPrefixo.classList.add('hidden');
+          }
+        }
+
+        const elNomeBody = document.getElementById('nutri-nome-body');
+        if (elNomeBody) elNomeBody.textContent = nomeLimpo;
+
+        const elNichoBadge = document.getElementById('nutri-nicho-badge');
+        if (elNichoBadge) elNichoBadge.textContent = nichoTitulo;
+
+        const elNichoText = document.getElementById('nutri-nicho-text');
+        if (elNichoText) elNichoText.textContent = nichoHero;
+
+        const elSelo = document.getElementById('nutri-selo');
+        if (elSelo) elSelo.textContent = seloTexto;
+
+        const elBtnNicho = document.getElementById('nutri-btn-nicho');
+        if (elBtnNicho) elBtnNicho.textContent = nichoBotao;
+
+        const elBtnDesc = document.getElementById('nutri-btn-desc');
+        if (elBtnDesc) elBtnDesc.textContent = nichoDesc;
+
+        // Iniciais para fallback caso a foto não carregue
+        const iniciais = nomeLimpo.charAt(0).toUpperCase() || '🥗';
+        const fbHeader = document.getElementById('avatar-fallback-header');
+        if (fbHeader) fbHeader.textContent = iniciais.length === 1 ? iniciais : '🥗';
+        const fbHero = document.getElementById('avatar-fallback-hero');
+        if (fbHero) fbHero.textContent = iniciais.length === 1 ? iniciais : '🥗';
+
+        // 6. Resolução Blindada da Foto
+        // Resolve as imagens a partir da própria URL publicada. Isso evita
+        // caminhos locais e continua funcionando em produção e em previews
+        // do Netlify, desde que index.html e fotos/ sejam enviados juntos.
+        function resolverUrlFoto(valor) {
+          if (!valor) return '';
+
+          const texto = valor.trim();
+          if (/^https?:\/\//i.test(texto)) return texto;
+
+          const caminho = texto
+            .replace(/^\.\//, '')
+            .replace(/^\/+/, '');
+          const arquivo = /\.(jpg|jpeg|png|webp|gif)$/i.test(caminho)
+            ? caminho
+            : caminho + '.jpg';
+          const relativo = arquivo.startsWith('fotos/') ? arquivo : 'fotos/' + arquivo;
+
+          try {
+            return new URL(relativo, window.location.href).href;
+          } catch (e) {
+            return relativo;
+          }
+        }
+
+        if (rawFoto) {
+          const urlFoto = resolverUrlFoto(rawFoto);
+
+          console.log("Caminho resolvido para a foto:", urlFoto);
+
+          const imgLoader = new Image();
+          imgLoader.src = urlFoto;
+
+          imgLoader.onload = function() {
+            console.log("✅ Foto carregada com sucesso:", urlFoto);
+            const imgHero = document.getElementById('avatar-hero');
+            const contHero = document.getElementById('avatar-hero-container');
+            const fbHero = document.getElementById('avatar-fallback-hero');
+            if (imgHero && contHero) {
+              imgHero.src = urlFoto;
+              contHero.classList.remove('hidden');
+              if (fbHero) fbHero.classList.add('hidden');
+            }
+
+            const imgHeader = document.getElementById('avatar-header');
+            const fbHeader = document.getElementById('avatar-fallback-header');
+            if (imgHeader) {
+              imgHeader.src = urlFoto;
+              imgHeader.classList.remove('hidden');
+              if (fbHeader) fbHeader.classList.add('hidden');
+            }
+          };
+
+          imgLoader.onerror = function() {
+            console.warn("⚠️ Não foi possível carregar a imagem em: " + urlFoto + ". Verifique se o arquivo existe na pasta fotos/. Exibindo fallback elegante.");
+            const contHero = document.getElementById('avatar-hero-container');
+            const fbHero = document.getElementById('avatar-fallback-hero');
+            if (contHero) contHero.classList.add('hidden');
+            if (fbHero) fbHero.classList.remove('hidden');
+          };
+        } else {
+          console.log("Nenhum parâmetro 'foto' informado. Fallback mantido.");
+        }
+
+        // 7. Funções Globais de Disparo para WhatsApp
+        window.enviarNutri = function(motivo) {
+          if (!zapLimpo) {
+            alert(
+              "💡 Demonstração Comercial Exclusiva:\n\n" +
+              "Esta é uma página modelo interativa criada especialmente para demonstrar a estrutura de captação de pacientes da " + (prefixo ? prefixo + ' ' : '') + nomeLimpo + ".\n\n" +
+              "Em ambiente real, este botão conecta o paciente diretamente ao seu WhatsApp com a mensagem personalizada pronta para agendamento!"
+            );
+            return;
+          }
+
+          const saudacao = "Olá " + (prefixo ? prefixo + ' ' : '') + nomeLimpo + ", vi sua página de atendimento.";
+          const textoCompleto = saudacao + "\n\n" + motivo;
+          const urlWa = "https://wa.me/" + zapLimpo + "?text=" + encodeURIComponent(textoCompleto);
+          window.open(urlWa, "_blank");
+        };
+
+        window.enviarNutriPersonalizado = function() {
+          const motivo = "Olá! Gostaria de agendar uma consulta focada em " + nichoMensagemZap + ".";
+          window.enviarNutri(motivo);
+        };
+
+        console.log("Configuração dinâmica finalizada com sucesso.");
+      } catch (err) {
+        console.error("❌ Erro inesperado durante a inicialização:", err);
+      } finally {
+        console.groupEnd();
+      }
+    })();
+  </script>
+</body>
+</html>
