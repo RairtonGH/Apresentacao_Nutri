@@ -173,14 +173,20 @@
         const rawNicho = getParamSafe('nicho') || getParamSafe('especialidade');
         const rawFoto = getParamSafe('foto') || getParamSafe('imagem') || getParamSafe('photo');
         const rawZap = getParamSafe('zap') || getParamSafe('whatsapp') || getParamSafe('telefone');
+        const rawTitulo = getParamSafe('titulo') || getParamSafe('prefixo');
 
         console.log("Parâmetros brutos lidos:", { rawNome, rawNicho, rawFoto, rawZap });
 
         // 2. Normalização do Nome
         let nomeLimpo = rawNome || 'Nutricionista';
-        let prefixo = 'Dra.';
-        if (nomeLimpo.toLowerCase().startsWith('dr.') || nomeLimpo.toLowerCase().startsWith('dra.') || nomeLimpo.toLowerCase().startsWith('dra ') || nomeLimpo.toLowerCase().startsWith('dr ')) {
-          prefixo = '';
+        let prefixo = '';
+        const tituloNormalizado = rawTitulo.toLowerCase().replace(/[^a-z]/g, '');
+        if (tituloNormalizado === 'dra') prefixo = 'Dra.';
+        if (tituloNormalizado === 'dr') prefixo = 'Dr.';
+        const tituloNoNome = nomeLimpo.match(/^(dra?\.?)(?:\s+)/i);
+        if (tituloNoNome) {
+          if (!prefixo) prefixo = /^dra/i.test(tituloNoNome[1]) ? 'Dra.' : 'Dr.';
+          nomeLimpo = nomeLimpo.slice(tituloNoNome[0].length).trim() || 'Nutricionista';
         }
 
         // 3. Mapeamento Inteligente e Amigável do Nicho
