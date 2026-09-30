@@ -898,8 +898,6 @@ function setFb(txt){
 if(urlFoto){
   const loader=new Image();
   loader.referrerPolicy='no-referrer';
-  loader.crossOrigin='anonymous';
-  loader.src=urlFoto;
 
   loader.onload=function(){
     // Header mini
@@ -930,6 +928,8 @@ if(urlFoto){
     if(igW&&igI){igI.src=urlFoto;igW.classList.remove('hidden');if(igF)igF.classList.add('hidden');}
     setFb(inicial);
   };
+  // Registra os handlers antes de iniciar a requisição, inclusive com cache.
+  loader.src=urlFoto;
 } else {
   setFb(inicial);
 }
