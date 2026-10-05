@@ -298,6 +298,17 @@
     .rdot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:background .2s,width .2s;cursor:pointer;}
     .rdot.active{background:var(--g1);width:18px;border-radius:3px;}
 
+    /* Desktop: mantém os depoimentos alinhados ao restante da página. */
+    @media (min-width:768px){
+      .reviews-scroll-wrap{
+        width:100%;
+        max-width:var(--max);
+        margin:20px auto 0;
+        padding:6px var(--pad) 16px;
+      }
+      .review-card{min-width:360px;}
+    }
+
     /* ── TRIAGEM ─────────────────────────────────────────── */
     .triage-card{
       background:var(--card);border:1.5px solid var(--border-l);
