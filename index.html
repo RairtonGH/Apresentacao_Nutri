@@ -95,13 +95,18 @@
     /* ── HERO ────────────────────────────────────────────── */
     #hero{overflow:hidden;background:linear-gradient(170deg,#ecfdf5 0%,#f0fdf4 30%,var(--bg) 70%);}
 
-    /* Foto full-width hero */
+    /* Foto contida: acompanha a largura do conteúdo, sem dominar a tela. */
     #hero-photo-full{
-      width:100%;
-      /* proporção ajustada pro mobile: 3:4 fica melhor que 4:5 em telas < 400px */
-      aspect-ratio:3/4;
-      max-height:88svh;
+      width:calc(100% - 2 * var(--pad));
+      max-width:calc(var(--max) - 2 * var(--pad));
+      margin:16px auto 0;
+      aspect-ratio:4/3;
+      max-height:360px;
+      border-radius:var(--r-card);
       position:relative;overflow:hidden;
+    }
+    @media(max-width:600px){
+      #hero-photo-full{max-height:320px;}
     }
     #hero-photo-full img{
       width:100%;height:100%;
@@ -432,7 +437,7 @@
   </div>
 
   <!-- Fallback card IG -->
-  <div id="hero-fallback" style="display:flex;flex-direction:column;align-items:center;padding:32px var(--pad) 0;">
+  <div id="hero-fallback" class="w-max" style="display:flex;flex-direction:column;align-items:center;padding:24px var(--pad) 0;">
     <div id="ig-wrap" class="ig-wrap hidden fade-up">
       <div class="ig-ring"></div>
       <div class="ig-bg"></div>
@@ -448,7 +453,7 @@
   </div>
 
   <!-- Stats (sempre visível) -->
-  <div class="w-max fade-up-d2" style="margin-top:22px;padding-bottom:32px;">
+  <div class="w-max fade-up-d2" style="padding-bottom:20px;">
     <div class="stats-row">
       <div class="stat-card"><div class="stat-num" id="stat-seg">—</div><div class="stat-lbl">Seguidores no Instagram</div></div>
       <div class="stat-card"><div class="stat-num" id="stat-anos">5+</div><div class="stat-lbl">Anos de experiência</div></div>
